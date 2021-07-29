@@ -27,3 +27,4 @@ env/
 
 # libreoffice
 .~lock.*
+*.csv
