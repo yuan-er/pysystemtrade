@@ -101,8 +101,13 @@ def get_system():
     my_config.trading_rules = dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16)
     my_config.instruments = get_etf_instruments()
 
-    my_config.forecast_scalars = dict(ewmac4=7.5, ewmac8=5.3, ewmac16=3.75)
-    my_config.use_forecast_scale_estimates = False
+    # my_config.forecast_weight_estimate = dict(method="shrinkage")
+    # my_config.use_forecast_weight_estimates = True
+    # my_config.use_forecast_div_mult_estimates = True
+    my_config.forecast_weights = dict(ewmac4=0.42, ewmac8=0.16, ewmac16=0.42)
+    my_config.forecast_div_multiplier = 1.12
+    my_config.use_forecast_weight_estimates = False
+    my_config.use_forecast_div_mult_estimates = False
 
     fcs = ForecastScaleCap()
 
@@ -111,16 +116,10 @@ def get_system():
     combiner = ForecastCombine()
     raw_data = RawData()
 
-    # 使用固定预测权重
-    my_config.forecast_weights = dict(ewmac4=0.42, ewmac8=0.16, ewmac16=0.42)
-    my_config.forecast_div_multiplier = 1.12
-    my_config.use_forecast_weight_estimates = False
-    my_config.use_forecast_div_mult_estimates = False
-
     # size positions
     possizer = PositionSizing()
     my_config.percentage_vol_target = 20
-    my_config.notional_trading_capital = 300000
+    my_config.notional_trading_capital = 500000
     my_config.base_currency = "USD"
 
     # portfolio - estimated
@@ -134,6 +133,8 @@ def get_system():
     my_system = System(
         [fcs, my_rules, combiner, possizer, portfolio, my_account, raw_data], data, my_config
     )
+    my_system.set_logging_level("on")
+
     return my_system
 
 
@@ -184,8 +185,6 @@ def estimate_SR_given_weights(system, risk_weights, handcraft_portfolio: handcra
     mean_estimates = mean_estimates_from_SR_function_actual_weights(system,
                                                                     risk_weights=risk_weights,
                                                                     handcraft_portfolio=handcraft_portfolio)
-    print(mean_estimates)
-    print(instrument_list)
     wt = np.array(risk_weights.as_list_given_keys(instrument_list))
     mu = np.array(mean_estimates.list_in_key_order(instrument_list))
     cm = handcraft_portfolio.estimates.correlation_matrix
@@ -255,7 +254,6 @@ if __name__ == '__main__':
         portfolio_sizes_dict = {}
         for instrument_code in unused_list_of_instruments:
             instrument_list = set_of_instruments_used + [instrument_code]
-            print(instrument_list)
             portfolio_sizes, SR_this_instrument = \
                 portfolio_sizes_and_SR_for_instrument_list(system,
                                                            corr_matrix=corr_matrix,
