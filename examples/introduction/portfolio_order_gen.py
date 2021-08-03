@@ -104,9 +104,25 @@ if __name__ == '__main__':
     my_system.set_logging_level("on")
     profits = my_system.accounts.portfolio()
 
-    print(my_system.portfolio.get_instrument_weights())
-    print(my_system.portfolio.get_instrument_diversification_multiplier())
+    instruments_weight_df = my_system.portfolio.get_instrument_weights()
+    idm_df = my_system.portfolio.get_instrument_diversification_multiplier()
+
+    # print(my_system.combForecast.get_combined_forecast())
+    # print(my_system.positionSize.get_volatility_scalar())
+    forecast_combine_df = pd.DataFrame()
+    volatility_combine_df = pd.DataFrame()
 
     for code in my_config.instruments:
-        print(code)
-        print(my_system.portfolio.get_notional_position(code))  # 最终系统仓位
+        code_forecast = my_system.combForecast.get_combined_forecast(code)
+        volatility_scalar = my_system.positionSize.get_volatility_scalar(code)
+        forecast_combine_df = forecast_combine_df.append(code_forecast, ignore_index=True)
+        volatility_combine_df = volatility_combine_df.append(volatility_scalar, ignore_index=True)
+
+    forecast_combine_df = forecast_combine_df.T
+    forecast_combine_df.columns = my_config.instruments
+    volatility_combine_df = volatility_combine_df.T
+    volatility_combine_df.columns = my_config.instruments
+    instruments_weight_df.to_csv('weight.csv')
+    idm_df.to_csv('idm.csv')
+    forecast_combine_df.to_csv('forecast.csv')
+    volatility_combine_df.to_csv('vol.csv')
