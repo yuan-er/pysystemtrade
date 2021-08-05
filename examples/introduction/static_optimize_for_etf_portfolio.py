@@ -3,6 +3,8 @@ __author__ = "qiang"
 __license__ = ""
 __version__ = "2021-07-27"
 
+import pandas as pd
+
 """
 判断etf是否应该加入组合
 """
@@ -29,9 +31,32 @@ from syscore.dateutils import WEEKS_IN_YEAR
 
 def get_etf_instruments():
     instruments = []
+    code_block = {}
     for code in etf_instruments.keys():
-        instruments.append(code.split('.')[0])
-        # print(code.split('.')[0]+ ',100,Equity,USD,0,0,0.00025,0,ETF')
+        instrument = code.split('.')[0]
+        if instrument in ['511260', '511010']:
+            continue
+
+        instruments.append(instrument)
+
+        if instrument in ['518880']:
+            print(instrument+ ',100,Equity,USD,0,0,0.00025,0,ETF')
+            code_block[instrument] = 100
+        elif instrument in ['511260', '511010']:
+            print(instrument+ ',100,Equity,USD,0,0,0,0,ETF')
+            code_block[instrument] = 100
+
+        else:
+            df = pd.read_csv('C:\\Users\\qiang\\Documents\\pysys\\' + instrument + '.csv')
+            mean_price = df['price'].mean()
+            std = (df['price'] - df['price'].shift(1)).std()
+            block = int(30 / (mean_price * std) // 100 * 100)
+            if block == 0:
+                block = 100
+            print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
+            code_block[instrument] = block
+    print(code_block)
+    exit()
     return instruments
 
 
