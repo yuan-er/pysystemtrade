@@ -32,6 +32,8 @@ from syscore.dateutils import WEEKS_IN_YEAR
 def get_etf_instruments():
     instruments = []
     code_block = {}
+    use_recent_vol = True
+    vol_lookback = 25
     for code in etf_instruments.keys():
         instrument = code.split('.')[0]
         if instrument in ['511260', '511010']:
@@ -48,13 +50,21 @@ def get_etf_instruments():
 
         else:
             df = pd.read_csv('C:\\Users\\qiang\\Documents\\pysys\\' + instrument + '.csv')
-            mean_price = df['price'].mean()
-            std = (df['price'] - df['price'].shift(1)).std()
-            block = int(30 / (mean_price * std) // 100 * 100)
-            if block == 0:
-                block = 100
-            print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
-            code_block[instrument] = block
+            if not use_recent_vol:
+                mean_price = df['price'].mean()
+                std = (df['price'] - df['price'].shift(1)).std()
+                block = int(30 / (mean_price * std) // 100 * 100)
+                if block == 0:
+                    block = 100
+                print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
+                code_block[instrument] = block
+            else:
+                std_vol =  (df['price'] - df['price'].shift(1)).ewm(span=vol_lookback).std().values[-1]
+                block = int(30 / std_vol // 100 * 100)
+                if block == 0:
+                    block = 100
+                print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
+                code_block[instrument] = block
     print(code_block)
     exit()
     return instruments
