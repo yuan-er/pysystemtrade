@@ -36,8 +36,8 @@ def get_etf_instruments():
     vol_lookback = 25
     for code in etf_instruments.keys():
         instrument = code.split('.')[0]
-        if instrument in ['511260', '511010']:
-            continue
+        # if instrument in ['511260', '511010']:
+        #     continue
 
         instruments.append(instrument)
 
@@ -53,17 +53,17 @@ def get_etf_instruments():
             if not use_recent_vol:
                 mean_price = df['price'].mean()
                 std = (df['price'] - df['price'].shift(1)).std()
-                block = int(30 / (mean_price * std) // 100 * 100)
+                block = int(60 / (mean_price * std) // 100 * 100)
                 if block == 0:
                     block = 100
                 print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
                 code_block[instrument] = block
             else:
                 std_vol =  (df['price'] - df['price'].shift(1)).ewm(span=vol_lookback).std().values[-1]
-                block = int(30 / std_vol // 100 * 100)
+                block = int(60 / std_vol // 100 * 100)
                 if block == 0:
                     block = 100
-                print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
+                print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,5,ETF')
                 code_block[instrument] = block
     print(code_block)
     exit()
