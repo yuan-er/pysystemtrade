@@ -3,7 +3,6 @@ from systems.provided.ewmac_carry.estimatedsystem import futures_system
 
 my_system = futures_system(log_level="on")
 
-
 print(my_system.accounts.portfolio().sharpe())
 
 profits = my_system.accounts.portfolio()
@@ -17,7 +16,7 @@ show()
 # from systems.provided.ewmac_carry.rules import carry2
 # print(carry2(my_system.rawdata.get_instrument_raw_carry_data("161912")).tail(5))
 
-print(my_system.combForecast.methods())
+print(my_system.combForecast.get_combined_forecast("161912").tail(5))
 
 print(profits.gross.percent.stats())
 print(profits.net.percent.stats())

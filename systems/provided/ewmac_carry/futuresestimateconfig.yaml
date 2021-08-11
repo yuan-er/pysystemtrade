@@ -54,12 +54,18 @@ trading_rules:
          Lfast: 64
          Lslow: 256
   carry:
-     function: systems.provided.futures_chapter15.rules.carry2
+     function: systems.provided.ewmac_carry.rules.carry
      data:
          - "rawdata.raw_carry"
      other_args:
          smooth_days: 90
-#
+
+#     function: systems.provided.ewmac_carry.rules.carry2
+#     data:
+#         - "rawdata.raw_carry"
+#     other_args:
+#         smooth_days: 90
+
 use_forecast_scale_estimates: True
 #
 forecast_scalar_estimate:
@@ -71,8 +77,8 @@ use_forecast_weight_estimates: True
 use_forecast_div_mult_estimates: True
 #
 #
-rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-#rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 #
 #
 forecast_correlation_estimate:

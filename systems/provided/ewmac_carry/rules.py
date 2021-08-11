@@ -105,11 +105,16 @@ def ewmac_calc_vol(price, Lfast, Lslow, vol_days=35):
     return raw_ewmac / vol.ffill()
 
 
-def carry(daily_ann_roll, vol, smooth_days=90):
+def carry(raw_carry, smooth_days=90):
     """
     Old carry rule
     """
-    raise Exception("DEPRECATED: USE carry2")
+    # raise Exception("DEPRECATED: USE carry2")
+    raw_carry *= -1.0
+    # smooth_carry = raw_carry.ewm(smooth_days).mean()
+    #
+    # return smooth_carry
+    return raw_carry
 
 
 def carry2(raw_carry, smooth_days=90):
@@ -133,7 +138,7 @@ def carry2(raw_carry, smooth_days=90):
     """
 
     smooth_carry = raw_carry.ewm(smooth_days).mean()
-
+    print(smooth_carry)
     return smooth_carry
 
 
