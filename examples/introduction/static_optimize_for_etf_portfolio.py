@@ -27,6 +27,7 @@ from sysquant.optimisation.optimisers.handcraft import *
 from sysquant.estimators.estimates import Estimates, meanEstimates, stdevEstimates
 from sysquant.optimisation.shared import neg_SR
 from syscore.dateutils import WEEKS_IN_YEAR
+from sysquant.estimators.vol import robust_vol_calc
 
 
 def get_etf_instruments():
@@ -59,7 +60,8 @@ def get_etf_instruments():
                 print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,0,ETF')
                 code_block[instrument] = block
             else:
-                std_vol =  (df['price'] - df['price'].shift(1)).ewm(span=vol_lookback).std().values[-1]
+                # std_vol = (df['price'] - df['price'].shift(1)).ewm(span=vol_lookback).std().values[-1]
+                std_vol = robust_vol_calc(df.price.diff()).values[-1]
                 block = int(60 / std_vol // 100 * 100)
                 if block == 0:
                     block = 100
