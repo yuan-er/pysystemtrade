@@ -114,6 +114,9 @@ def carry(raw_carry, smooth_days=90):
     # smooth_carry = raw_carry.ewm(smooth_days).mean()
     #
     # return smooth_carry
+    pd.set_option("max_rows", None)
+    # print(raw_carry)
+    # exit()
     return raw_carry
 
 
