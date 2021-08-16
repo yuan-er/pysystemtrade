@@ -54,17 +54,16 @@ trading_rules:
          Lfast: 64
          Lslow: 256
   carry:
-     function: systems.provided.ewmac_carry.rules.carry
-     data:
-         - "rawdata.raw_carry"
-     other_args:
-         smooth_days: 90
-
-#     function: systems.provided.ewmac_carry.rules.carry2
+#     function: systems.provided.ewmac_carry.rules.carry
 #     data:
 #         - "rawdata.raw_carry"
 #     other_args:
 #         smooth_days: 90
+     function: systems.provided.ewmac_carry.rules.carry2
+     data:
+         - "rawdata.raw_carry"
+     other_args:
+         smooth_days: 90
 
 use_forecast_scale_estimates: True
 #
@@ -78,20 +77,22 @@ use_forecast_div_mult_estimates: True
 #
 #
 rule_variations:
-  '161912': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-  '501078': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-  '501085': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-  '168207': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-  '501077': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
-  '510050': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '510330': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '510500': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '513050': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '513100': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '513500': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '518880': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '162411': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
-  '511260': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+  ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '161912': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  '501078': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  '501085': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  '168207': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  '501077': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#  '510050': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '510330': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '510500': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '513050': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '513100': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '513500': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '518880': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '162411': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+#  '511260': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 
 #rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 #
@@ -107,10 +108,11 @@ use_instrument_div_mult_estimates: True
 # Capital correction
 #
 percentage_vol_target: 20.0
-notional_trading_capital: 300000
+notional_trading_capital: 1000000
 base_currency: "USD"
 #
 # Portfolio creation
 #
-instruments: ['510050', '510330', '510500', '501077', '161912', '168207', '501085', '501078', '513050', '513100', '513500', '518880', '162411', '511260']
+#instruments: ['510050', '510330', '510500', '501077', '161912', '168207', '501085', '501078', '513050', '513100', '513500', '518880', '511260']
+instruments: ['HC', 'CF', 'SP', 'EB', 'RB', 'AL'] #, 'IC', 'IF', 'IH', 'T'] #, '501077', '161912', '168207', '501085', '501078']
 

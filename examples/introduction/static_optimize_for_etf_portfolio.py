@@ -261,11 +261,15 @@ def estimate_portfolio_sizes_given_weights(system, risk_weights, handcraft_portf
 
 
 if __name__ == '__main__':
-    max_instrument_weight = 0.05
-    notional_starting_IDM = 1
+    max_instrument_weight = 0.1
+    notional_starting_IDM = 2.1
     minimum_instrument_weight_idm = max_instrument_weight * notional_starting_IDM
 
-    system = get_system()
+    # system = get_system()
+    from systems.provided.ewmac_carry.estimatedsystem import futures_system
+
+    system = futures_system(log_level="off")
+
     list_of_instruments = system.get_instrument_list()
     print(list_of_instruments)
     all_results = []

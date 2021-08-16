@@ -16,7 +16,7 @@ show()
 # from systems.provided.ewmac_carry.rules import carry2
 # print(carry2(my_system.rawdata.get_instrument_raw_carry_data("161912")).tail(5))
 
-print(my_system.combForecast.get_combined_forecast("161912").tail(5))
+# print(my_system.combForecast.get_combined_forecast("161912").tail(5))
 
 print(profits.gross.percent.stats())
 print(profits.net.percent.stats())
@@ -48,4 +48,5 @@ print(profits.net.percent.stats())
 # idm_df.to_csv('idm.csv')
 # forecast_combine_df.to_csv('forecast.csv')
 # volatility_combine_df.to_csv('vol.csv')
-# print(my_system.portfolio.get_instrument_weights().tail(1).to_dict(orient='records'))
+print(my_system.portfolio.get_instrument_weights().tail(1).to_dict(orient='records'))
+print(my_system.portfolio.get_instrument_weights().tail(10))

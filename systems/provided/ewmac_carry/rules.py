@@ -110,10 +110,10 @@ def carry(raw_carry, smooth_days=90):
     Old carry rule
     """
     # raise Exception("DEPRECATED: USE carry2")
-    raw_carry *= -1.0
-    # smooth_carry = raw_carry.ewm(smooth_days).mean()
+    # raw_carry *= -1.0
+    smooth_carry = -1.0 * raw_carry.ewm(smooth_days).mean()
     #
-    # return smooth_carry
+    return smooth_carry
     pd.set_option("max_rows", None)
     # print(raw_carry)
     # exit()
@@ -140,7 +140,7 @@ def carry2(raw_carry, smooth_days=90):
     Freq: B, dtype: float64
     """
 
-    smooth_carry = raw_carry.ewm(smooth_days).mean()
+    smooth_carry = 1 * raw_carry.ewm(smooth_days).mean()
     print(smooth_carry)
     return smooth_carry
 
