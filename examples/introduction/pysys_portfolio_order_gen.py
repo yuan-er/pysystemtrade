@@ -21,7 +21,7 @@ from systems.positionsizing import PositionSizing
 from systems.portfolio import Portfolios
 
 if __name__ == '__main__':
-    use_fix_strategy_weight = True
+    use_fix_strategy_weight = False
     use_fix_instrument_weight = False
 
     data = csvFuturesSimData()
@@ -67,10 +67,11 @@ if __name__ == '__main__':
     #                       '518880.sh', '160416.sz']
     # codes = ['510050.sh', '510330.sh', '510500.sh', '501077.sh', '161912.sz', '168207.sz', '501085.sh', '506001.sh',
     #          '501078.sh', '513050.sh', '513100.sh', '513500.sh', '518880.sh', '162411.sz', '511260.sh']
-    codes = ['510050.sh', '510330.sh', '510500.sh', '501077.sh', '161912.sz', '168207.sz', '501085.sh', '501078.sh', '513050.sh', '513100.sh', '513500.sh', '518880.sh', '162411.sz', '511260.sh']
+    codes = ['510050.sh', '510330.sh', '510500.sh', '501077.sh', '161912.sz', '168207.sz', '501085.sh', '501078.sh',
+             '501079.sh', '513050.sh', '513100.sh', '513500.sh', '518880.sh', '162411.sz', '511260.sh']
     for code in codes:
         instruments.append(code.split('.')[0])
-
+    instruments.append('sz123102')
     # instrument_dict.pop('511260')
     # instrument_dict.pop('511010')
     my_config.instruments = instruments
