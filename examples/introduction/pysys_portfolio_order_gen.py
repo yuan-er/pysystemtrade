@@ -67,11 +67,13 @@ if __name__ == '__main__':
     #                       '518880.sh', '160416.sz']
     # codes = ['510050.sh', '510330.sh', '510500.sh', '501077.sh', '161912.sz', '168207.sz', '501085.sh', '506001.sh',
     #          '501078.sh', '513050.sh', '513100.sh', '513500.sh', '518880.sh', '162411.sz', '511260.sh']
-    codes = ['510050.sh', '510330.sh', '510500.sh', '501077.sh', '161912.sz', '168207.sz', '501085.sh', '501078.sh',
-             '501079.sh', '513050.sh', '513100.sh', '513500.sh', '518880.sh', '162411.sz', '511260.sh']
+    # codes = ['HC', 'CF', 'SP', 'EB', 'RB', 'AL', 'IC', 'IH', 'IF', 'TF', '513050.sh', '513100.sh', '513500.sh',
+    #          '518880.sh', '162411.sz', '161912.sz', '501078.sh', '501085.sh', '501077.sh', '168207.sz', '501079.sh']
+    codes = ['HC', 'CF', 'SP', 'EB', 'RB', 'AL']
+
     for code in codes:
         instruments.append(code.split('.')[0])
-    instruments.append('sz123102')
+    # instruments.append('sz123102')
     # instrument_dict.pop('511260')
     # instrument_dict.pop('511010')
     my_config.instruments = instruments
@@ -102,7 +104,7 @@ if __name__ == '__main__':
     # size positions
     possizer = PositionSizing()
     my_config.percentage_vol_target = 20
-    my_config.notional_trading_capital = 300000
+    my_config.notional_trading_capital = 600000
     my_config.base_currency = "USD"
 
     # portfolio - estimated

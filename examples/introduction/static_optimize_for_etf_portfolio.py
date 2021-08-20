@@ -68,7 +68,7 @@ def get_etf_instruments():
                 print(instrument+ ',' +str(block) + ',Equity,USD,0,0,0.00025,5,ETF')
                 code_block[instrument] = block
     print(code_block)
-    exit()
+    # exit()
     return instruments
 
 
@@ -136,7 +136,14 @@ def get_system():
 
     my_config = Config()
     my_config.trading_rules = dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16)
-    my_config.instruments = get_etf_instruments()
+    # my_config.instruments = get_etf_instruments()
+    codes = ['HC', 'CF', 'SP', 'EB', 'RB', 'AL', 'IC', 'IH', 'IF', 'TF', '513050.sh', '513100.sh', '513500.sh',
+             '518880.sh', '162411.sz', '161912.sz', '501078.sh', '501085.sh', '501077.sh', '168207.sz', '501079.sh']
+    instruments = []
+    for code in codes:
+        instruments.append(code.split('.')[0])
+
+    my_config.instruments = instruments
 
     # my_config.forecast_weight_estimate = dict(method="shrinkage")
     # my_config.use_forecast_weight_estimates = True
@@ -156,7 +163,7 @@ def get_system():
     # size positions
     possizer = PositionSizing()
     my_config.percentage_vol_target = 20
-    my_config.notional_trading_capital = 500000
+    my_config.notional_trading_capital = 10000000
     my_config.base_currency = "USD"
 
     # portfolio - estimated
@@ -265,10 +272,10 @@ if __name__ == '__main__':
     notional_starting_IDM = 2.1
     minimum_instrument_weight_idm = max_instrument_weight * notional_starting_IDM
 
-    # system = get_system()
-    from systems.provided.ewmac_carry.estimatedsystem import futures_system
-
-    system = futures_system(log_level="off")
+    system = get_system()
+    # from systems.provided.ewmac_carry.estimatedsystem import futures_system
+    #
+    # system = futures_system(log_level="off")
 
     list_of_instruments = system.get_instrument_list()
     print(list_of_instruments)

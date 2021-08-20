@@ -76,8 +76,8 @@ use_forecast_weight_estimates: True
 use_forecast_div_mult_estimates: True
 #
 #
-rule_variations:
-  ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
+#rule_variations:
+#  ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
 #  ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 #  '161912': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
 #  '501078': ['ewmac4_16','ewmac8_32', 'ewmac16_64', 'carry']
@@ -94,7 +94,7 @@ rule_variations:
 #  '162411': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 #  '511260': ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 
-#rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64']
+rule_variations: ['ewmac4_16','ewmac8_32', 'ewmac16_64']
 #
 #
 forecast_correlation_estimate:
@@ -108,11 +108,12 @@ use_instrument_div_mult_estimates: True
 # Capital correction
 #
 percentage_vol_target: 20.0
-notional_trading_capital: 1000000
+notional_trading_capital: 600000
 base_currency: "USD"
 #
 # Portfolio creation
 #
-#instruments: ['510050', '510330', '510500', '501077', '161912', '168207', '501085', '501078', '513050', '513100', '513500', '518880', '511260']
-instruments: ['HC', 'CF', 'SP', 'EB', 'RB', 'AL'] #, 'IC', 'IF', 'IH', 'T'] #, '501077', '161912', '168207', '501085', '501078']
+instruments: ['510050', '510330', '510500', '501077', '161912', '168207', '501085', '501078', '513050', '513100', '513500', '518880', '511260']
+#instruments: ['HC', 'CF', 'SP', 'EB', 'RB', 'AL'] #, 'IC', 'IF', 'IH', 'T'] #, '501077', '161912', '168207', '501085', '501078']
+#instruments: ['HC', 'SP', 'EB', 'RB', 'AL', 'CF', 'T', '510050', '510330', '510500', '513050', '513100', '513500', '518880', '511260', '161912', '501078', '501085', '501077', '168207', '501079']
 
