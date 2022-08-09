@@ -28,3 +28,6 @@ env/
 # libreoffice
 .~lock.*
 *.csv
+data/.DS_Store
+data/futures/.DS_Store
+data/futures/adjusted_prices_csv/.DS_Store

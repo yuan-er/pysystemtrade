@@ -10,6 +10,7 @@ def shrinkage_optimisation(estimates: Estimates,
                                     ann_target_SR = 0.5,
                                      **weighting_kwargs) -> estimatesWithPortfolioWeights:
 
+    print('shrinkage_optimisation')
     estimates = estimates.shrink_correlation_to_average(shrinkage_corr)
     estimates = estimates.shrink_means_to_SR(shrinkage_SR=shrinkage_SR, ann_target_SR = ann_target_SR)
 
