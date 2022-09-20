@@ -46,6 +46,10 @@ def ewmac_forecast_with_defaults(price, Lfast=32, Lslow=128):
     return raw_ewmac / vol
 
 
+def long_hold(price):
+    return price * 10.0 / price
+
+
 def ewmac_forecast_with_defaults_no_vol(price, vol, Lfast=16, Lslow=32):
     """
     Calculate the ewmac trading rule forecast, given price, volatility and EWMA speeds
