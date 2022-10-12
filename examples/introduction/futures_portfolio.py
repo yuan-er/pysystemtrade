@@ -118,6 +118,7 @@ if __name__ == '__main__':
 
     print(profits.percent.stats())
     print(my_system.accounts.get_notional_capital())
+    # print(profits.curve().tail(60))
     profits.curve().plot()
     from matplotlib.pyplot import show
     show()
@@ -125,6 +126,9 @@ if __name__ == '__main__':
     # have costs data now
     print(profits.gross.percent.stats())
     print(profits.net.percent.stats())
+    print(my_system.accounts.portfolio().annual)
+    my_system.accounts.portfolio().drawdown().plot()
+    show()
 
     # print(my_system.positionSize.get_price_volatility("HC").tail(5))
     # print(my_system.positionSize.get_block_value("HC").tail(5))

@@ -1,15 +1,15 @@
 # -*- coding:utf-8 -*-
 __author__ = "qiang"
 __license__ = ""
-__version__ = "2021-09-13"
+__version__ = "2022-08-02"
 
 """
-验证个股长期持有组合是否有收益
+查验pysys中期货的收益，以确定trading sys是否应该复现其效果
 """
 import pandas as pd
 from sysdata.sim.csv_futures_sim_data import csvFuturesSimData
-from systems.provided.example.rules import long_hold
 from systems.provided.example.rules import ewmac_forecast_with_defaults as ewmac
+from systems.provided.ewmac_carry.rules import carry
 
 from systems.forecasting import Rules
 from systems.trading_rules import TradingRule
@@ -27,7 +27,6 @@ if __name__ == '__main__':
 
     data = csvFuturesSimData()
 
-    long_h = TradingRule((long_hold, [], dict()))
     ewmac_4 = TradingRule((ewmac, [], dict(Lfast=4, Lslow=16)))
     ewmac_8 = TradingRule(
         dict(
@@ -47,19 +46,27 @@ if __name__ == '__main__':
             other_args=dict(
                 Lfast=32,
                 Lslow=128)))
-    my_rules = Rules(dict(long_h=long_h, ewmac32=ewmac_32))
-    # my_rules = Rules(dict(ewmac32=ewmac_32))
-    # my_rules = Rules(dict(long_h=long_h))
+    # my_rules = Rules(dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16, ewmac32=ewmac_32))
+    # my_rules = Rules(dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16, carry=carry2))
+    # my_rules = Rules(dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16))
+    my_rules = Rules(dict(carry=carry))
+    # my_rules = Rules(dict(ewmac8=ewmac_8, ewmac16=ewmac_16))
 
     my_config = Config()
-    # we can estimate these ourselves
-    my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309']
-    # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309', '600028']
-    # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309', '000725']
-    # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009']
-    # my_config.instruments = ['600036', '000333', '000895', '600900', '600887', '600009', '600309']
-    my_config.start_date = '2000-01-01'
+    # my_config.trading_rules = dict(ewmac4=ewmac_4, ewmac8=ewmac_8, ewmac16=ewmac_16, ewmac32=ewmac_32)
+    # my_config.trading_rules = dict(ewmac8=ewmac_8, ewmac16=ewmac_16)
 
+    # we can estimate these ourselves
+    my_config.instruments = ['HC']
+    # my_config.instruments = ['AEX']
+    # my_config.instruments = [ 'IC']
+    my_config.start_date = '2015-01-01'
+
+    # my_config.instruments = select_dict.keys()
+    # # my_config.instruments = get_etf_instruments()
+    # exit()
+    # my_config.forecast_scalars = dict(ewmac4=7.5, ewmac8=5.3, ewmac16=3.75)
+    # my_config.use_forecast_scale_estimates = False
     my_config.use_forecast_scale_estimates = True
 
     fcs = ForecastScaleCap()
@@ -71,6 +78,7 @@ if __name__ == '__main__':
     my_account = Account()
     combiner = ForecastCombine()
     raw_data = RawData()
+
     position_size = PositionSizing()
 
     my_config.forecast_weight_estimate = dict(method="shrinkage")
@@ -87,7 +95,7 @@ if __name__ == '__main__':
     # size positions
     possizer = PositionSizing()
     my_config.percentage_vol_target = 20
-    my_config.notional_trading_capital = 140000
+    my_config.notional_trading_capital = 100000
     my_config.base_currency = "USD"
 
     # portfolio - estimated
@@ -102,7 +110,7 @@ if __name__ == '__main__':
     """
     # print(my_config.start_date)
     # exit()
-    my_config.forecast_floor=0
+    # my_config.forecast_floor=0
     my_system = System(
         [fcs, my_rules, combiner, possizer, portfolio, my_account, raw_data], data, my_config
     )
@@ -112,10 +120,11 @@ if __name__ == '__main__':
 
     print(my_system.forecastScaleCap.get_forecast_cap())
 
-    profits = my_system.accounts.portfolio(delayfill=True)
+    profits = my_system.accounts.portfolio()
 
     print(profits.percent.stats())
     print(my_system.accounts.get_notional_capital())
+    # print(profits.curve().tail(60))
     profits.curve().plot()
     from matplotlib.pyplot import show
     show()

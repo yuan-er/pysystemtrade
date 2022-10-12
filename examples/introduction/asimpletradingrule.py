@@ -40,7 +40,7 @@ We have extra futures data here
 
 """
 
-print(data.get_instrument_raw_carry_data("EDOLLAR").tail(6))
+print(data.get_instrument_raw_carrycarry_data("EDOLLAR").tail(6))
 """
 Technical note: csvFuturesSimData inherits from FuturesData which itself inherits
 from simData
