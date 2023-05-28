@@ -48,16 +48,19 @@ if __name__ == '__main__':
                 Lfast=32,
                 Lslow=128)))
     my_rules = Rules(dict(long_h=long_h, ewmac32=ewmac_32))
-    # my_rules = Rules(dict(ewmac32=ewmac_32))
+    # my_rules = Rules(dict(ewmac8=ewmac_8, ewmac16=ewmac_16, ewmac32=ewmac_32))
+    # my_rules = Rules(dict(ewmac8=ewmac_8, ewmac32=ewmac_32))
     # my_rules = Rules(dict(long_h=long_h))
 
     my_config = Config()
     # we can estimate these ourselves
     my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309']
+    # my_config.instruments = ['600036']
     # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309', '600028']
     # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009', '600309', '000725']
     # my_config.instruments = ['600036', '000895', '000333', '600900', '600887', '600009']
     # my_config.instruments = ['600036', '000333', '000895', '600900', '600887', '600009', '600309']
+    # my_config.start_date = '2002-04-23'
     my_config.start_date = '2000-01-01'
 
     my_config.use_forecast_scale_estimates = True
@@ -73,8 +76,10 @@ if __name__ == '__main__':
     raw_data = RawData()
     position_size = PositionSizing()
 
-    my_config.forecast_weight_estimate = dict(method="shrinkage")
+    my_config.forecast_weight_estimate = dict(method="shrinkage",cost_multiplier=0.0, ceiling_cost_SR=0.13)
+    my_config.forecast_cost_estimates = dict(use_pooled_costs=False, use_pooled_turnover=True)
     my_config.use_forecast_weight_estimates = True
+    my_config.use_forecast_cost_estimates = True
     my_config.use_forecast_div_mult_estimates = True
 
     # 使用固定预测权重
@@ -96,6 +101,9 @@ if __name__ == '__main__':
     my_config.use_instrument_div_mult_estimates = True
     my_config.instrument_weight_estimate = dict(
         method="shrinkage", date_method="expanding")
+
+    # my_config.use_instrument_weight_estimates = False
+    # my_config.use_instrument_div_mult_estimates = False
 
     """
     Have we made some dosh?
@@ -124,6 +132,7 @@ if __name__ == '__main__':
     print(profits.gross.percent.stats())
     print(profits.net.percent.stats())
     print(my_system.accounts.portfolio().annual)
+    print(my_system.accounts.portfolio().daily)
     my_system.accounts.portfolio().drawdown().plot()
     show()
 
@@ -148,9 +157,9 @@ if __name__ == '__main__':
     for code in my_config.instruments:
         print(code)
         print(my_system.combForecast.get_combined_forecast(code).tail(5))
-        # print(my_system.positionSize.get_volatility_scalar(code).tail(5))
+        print(my_system.positionSize.get_volatility_scalar(code).tail(5))
         # print(my_system.positionSize.get_vol_target_dict())
-
+        #
         # print(my_system.positionSize.get_subsystem_position(code).tail(5)) # 子系统仓位
         # print(my_system.portfolio.get_notional_position(code).tail(10)) # 最终系统仓位
         print(my_system.accounts.get_actual_position(code).tail(10))

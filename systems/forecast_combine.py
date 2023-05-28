@@ -73,6 +73,8 @@ class ForecastCombine(SystemStage
         raw_multiplied_combined_forecast = self.get_raw_combined_forecast_before_mapping(
             instrument_code
         )
+        # print('raw')
+        # print(raw_multiplied_combined_forecast)
 
         # apply cap and /or any non linear mapping
         (
@@ -83,6 +85,8 @@ class ForecastCombine(SystemStage
         combined_forecast = mapping_and_capping_function(
             raw_multiplied_combined_forecast, **mapping_and_capping_kwargs
         )
+        # print('combine')
+        # print(combined_forecast)
 
         return combined_forecast
 
@@ -93,12 +97,16 @@ class ForecastCombine(SystemStage
         # sum
         raw_combined_forecast = self.get_combined_forecast_without_multiplier(instrument_code)
 
+        # print('raw_combined_forecast')
+        # print(raw_combined_forecast)
         # probably daily frequency
         forecast_div_multiplier = self.get_forecast_diversification_multiplier(
             instrument_code
         )
 
         forecast_div_multiplier = forecast_div_multiplier.reindex(raw_combined_forecast.index).ffill()
+        # print('forecast_div_multiplier')
+        # print(forecast_div_multiplier)
 
         # apply fdm
         raw_multiplied_combined_forecast = (
@@ -126,6 +134,8 @@ class ForecastCombine(SystemStage
         rule_variation_list = self.get_trading_rule_list(instrument_code)
         forecasts = self.get_all_forecasts(
             instrument_code, rule_variation_list)
+        # print('get_weighted_forecasts_without_multiplier ')
+        # print(forecasts)
 
         smoothed_daily_forecast_weights = self.get_forecast_weights(instrument_code)
         smoothed_forecast_weights = smoothed_daily_forecast_weights.reindex(forecasts.index).ffill()
@@ -558,9 +568,13 @@ class ForecastCombine(SystemStage
         config = self.config
         # Get some useful stuff from the config
         weighting_params = copy(config.forecast_weight_estimate)
+        print(weighting_params)
 
         # which function to use for calculation
         weighting_func = resolve_function(weighting_params.pop("func"))
+
+        print('weighting fun')
+        print(weighting_func)
 
         returns_pre_processor = self.returns_pre_processor_for_code(instrument_code)
 

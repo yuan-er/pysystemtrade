@@ -40,9 +40,11 @@ def ewmac_forecast_with_defaults(price, Lfast=32, Lslow=128):
     fast_ewma = price.ewm(span=Lfast).mean()
     slow_ewma = price.ewm(span=Lslow).mean()
     raw_ewmac = fast_ewma - slow_ewma
-
     vol = robust_vol_calc(price.diff())
-
+    # print('ewmac_forecast_with_defaults')
+    # print(raw_ewmac)
+    # print(vol)
+    # print(raw_ewmac / vol)
     return raw_ewmac / vol
 
 

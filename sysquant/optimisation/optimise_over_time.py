@@ -15,7 +15,8 @@ class optimiseWeightsOverTime(object):
                             rollyears=20,
                              log: logger = logtoscreen("optimiser"),
                             **kwargs):
-
+        print('net returns')
+        print(net_returns)
         # Generate time periods
         fit_dates = generate_fitting_dates(
             net_returns, date_method=date_method, rollyears=rollyears
@@ -39,7 +40,6 @@ class optimiseWeightsOverTime(object):
     def weights(self) -> pd.DataFrame:
         fit_dates = self.fit_dates
         optimiser = self.optimiser
-
         progress = progressBar(len(fit_dates), "Optimising weights")
 
 
@@ -53,5 +53,5 @@ class optimiseWeightsOverTime(object):
 
         weight_index= fit_dates.list_of_starting_periods()
         weights = pd.DataFrame(weight_list, index = weight_index)
-
+        print(weights)
         return weights

@@ -92,11 +92,9 @@ class portfolioOptimiser():
         -> estimatesWithPortfolioWeights:
 
         method = self.method
-        print('method', method)
+        print(method)
         weighting_args = self._weighting_args
-        print('weighting_args', weighting_args)
-
-        print('fit_period', fit_period)
+        print(weighting_args)
         estimates = self.get_estimators_for_period(fit_period)
         estimates = copy(estimates)
 

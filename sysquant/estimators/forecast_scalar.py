@@ -46,5 +46,4 @@ def forecast_scalar(
 
     if backfill:
         scaling_factor = scaling_factor.fillna(method="bfill")
-
     return scaling_factor
